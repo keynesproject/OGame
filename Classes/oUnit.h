@@ -6,6 +6,9 @@
 USING_NS_CC;
 using namespace std;
 
+struct MusicData;
+struct ImageData;
+
 /////////////////////////////////////////////////////////////////////
 //
 //oAudio
@@ -17,7 +20,7 @@ public:
     oAudio();
     ~oAudio();
 
-    bool Create(string File, bool isMusic, bool isLoop);
+    bool Create(string strFile, bool isMusic, bool isLoop);
 
     void Play();
     void Stop();
@@ -42,11 +45,18 @@ public:
     oSprite();
     ~oSprite();
     
-    void SetAnimation(string AniFile, int nAniNum );
-    void AniPlay( int Loop );                //-1:持續回播, 0:停止播放, N:播放N次;//
+    static oSprite* create();
+    static oSprite* create(const std::string& filename);
+
+    void SetAnimation(ImageData *pData);
+    void SetAnimation(string strAniFile, int nAniNum, float fDelayPerUnit=0);
+    
+    //-1:持續回播, 0:停止播放, N:播放N次;//
+    void AniPlay( int nLoop );                
     void AniPause( bool isResume );
 
-    void SetMusic(string File, bool isMusic, bool isLoop);
+    void SetMusic(MusicData *pData);
+    void SetMusic(string strFile, bool isMusic, bool isLoop);
     void MusicPlay();
     void MusicStop();
     void MusicPause( bool isResume);

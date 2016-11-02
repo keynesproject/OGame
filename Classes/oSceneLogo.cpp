@@ -31,39 +31,22 @@ bool oSceneLogo::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /*
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-        "CloseNormal.png",
-        "CloseSelected.png",
-        CC_CALLBACK_1(oSceneLogo::menuCloseCallback, this));
-
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width / 2,
-        origin.y + closeItem->getContentSize().height / 2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-    */
-
     //取得Scene設定資料;//
     oSceneConfig *SceneConfig = oConfig::getInstance()->GetSceneConfig("SceneLogo");
     if (!SceneConfig)
         return false;
-
+    
     //取得音樂檔;//
-    MusicData *mData = SceneConfig->GetMusic("LogoStart");
+    MusicData *pMusicData = SceneConfig->GetMusic("LogoStart");  
+    m_SoundStart = new oAudio();
+    m_SoundStart->Create(pMusicData->strFilePath, pMusicData->isMusic, pMusicData->isLoop);
 
     //取得圖檔;//
-
-
-    //建立LOGO;//
-    m_sLogo = Sprite::create("LOGO.png");
+    ImageData *pImgData = SceneConfig->GetImage("Logo");
+    m_sLogo = oSprite::create(pImgData->strFilePath);
     m_sLogo->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     m_sLogo->setScale(5);
     this->addChild(m_sLogo, 0);
-
 
     //建立滑鼠按下事件;//
     auto MouseListener = EventListenerMouse::create();
@@ -75,15 +58,28 @@ bool oSceneLogo::init()
     return true;
 }
 
+void oSceneLogo::onExit()
+{
+    if (m_SoundStart != NULL)
+        delete m_SoundStart;
+    m_SoundStart = NULL;
+    
+    LayerColor::onExit();
+}
+
 void oSceneLogo::onMouseDown(Event *event)
 {
+    m_SoundStart->Play();
+
     //滑鼠按下後切換至遊戲場景;//
     auto SceneGamePlay = oSceneGamePlay::createScene();
     Director::getInstance()->replaceScene(SceneGamePlay);
 }
 
 void oSceneLogo::UpdateOnce(float DelayTime)
-{
+{    
+    m_SoundStart->Play();
+
     //經過Delay時間後，切換至下個場景;//
     auto SceneGamePlay = oSceneGamePlay::createScene();
     Director::getInstance()->replaceScene(SceneGamePlay);

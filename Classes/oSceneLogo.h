@@ -6,6 +6,7 @@
 USING_NS_CC;
 
 class oAudio;
+class oSprite;
 
 class oSceneLogo : public cocos2d::LayerColor
 {
@@ -17,13 +18,15 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(oSceneLogo);
 
+    void onExit();
+
     void onMouseDown(Event *event);
 
     void UpdateOnce(float DelayTime);
 
 private:
-    oAudio *m_SoundStart;
-    Sprite *m_sLogo;
+    oAudio  *m_SoundStart;
+    oSprite *m_sLogo;
 };
 
 

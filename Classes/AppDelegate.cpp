@@ -2,14 +2,9 @@
 #include "SimpleAudioEngine.h"
 #include "oConfig.h"
 #include "oSceneLogo.h"
-/*
-#include "firebase/admob.h"
-#include "firebase/admob/types.h"
-#include "firebase/app.h"
-#include "firebase/future.h"
-*/
-USING_NS_CC;
+#include "oSceneGameplay.h"
 
+USING_NS_CC;
 
 //static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size designResolutionSize = cocos2d::Size(600, 800);
@@ -89,7 +84,8 @@ bool AppDelegate::applicationDidFinishLaunching()
         return false;
 
     // create a scene. it's an autorelease object
-    auto scene = oSceneLogo::createScene();
+    //auto scene = oSceneLogo::createScene();
+    auto scene = oSceneGamePlay::createScene();
 
     // run
     director->runWithScene(scene);
